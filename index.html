@@ -1,294 +1,300 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>玩具王国 Toy Kingdom | 探索快乐童年</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-    /* === 全局重置 === */
-    :root {
-        --primary-color: #FFD166; /* 快乐黄 */
-        --secondary-color: #118AB2; /* 智慧蓝 */
-        --accent-color: #EF476F; /* 活力红 */
-        --text-color: #073B4C;
-        --bg-color: #F8F9FA;
-        --card-shadow: 0 10px 20px rgba(0,0,0,0.08);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamCanvas AI - 创意绘画生成器</title>
+    <style>
+        /* --- CSS 样式部分 --- */
+        :root {
+            --primary-color: #6d28d9;
+            --primary-hover: #5b21b6;
+            --accent-color: #06b6d4;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-secondary: #94a3b8;
+        }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: "Segoe UI", "Microsoft YaHei", sans-serif; color: var(--text-color); background-color: var(--bg-color); line-height: 1.6; }
-    a { text-decoration: none; color: inherit; }
-    ul { list-style: none; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    /* === 导航栏 === */
-    nav {
-        background: #fff;
-        padding: 15px 5%;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .logo { font-size: 1.5rem; font-weight: 800; color: var(--secondary-color); }
-    .logo i { color: var(--primary-color); margin-right: 5px; }
-    
-    .nav-links { display: flex; gap: 20px; }
-    .nav-links a { font-weight: 600; transition: 0.3s; }
-    .nav-links a:hover { color: var(--accent-color); }
-    
-    .btn-nav {
-        padding: 8px 20px;
-        background: var(--accent-color);
-        color: #fff;
-        border-radius: 20px;
-        font-size: 0.9rem;
-    }
-    .btn-nav:hover { background: #d6335a; color: #fff; }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
 
-    /* === Hero 区域 === */
-    .hero {
-        background: linear-gradient(135deg, #fff3e0 0%, #e1f5fe 100%);
-        height: 550px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 0 20px;
-    }
-    .hero-content h1 { font-size: 3.5rem; margin-bottom: 15px; color: var(--text-color); }
-    .hero-content p { font-size: 1.25rem; margin-bottom: 30px; color: #555; }
-    .btn-lg {
-        padding: 15px 40px;
-        background: var(--secondary-color);
-        color: #fff;
-        font-size: 1.1rem;
-        border-radius: 50px;
-        box-shadow: 0 5px 15px rgba(17, 138, 178, 0.3);
-        transition: 0.3s;
-    }
-    .btn-lg:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(17, 138, 178, 0.4); }
+        /* 头部导航 */
+        header {
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
 
-    /* === 特性板块 (Why Choose Us) === */
-    .features {
-        display: flex;
-        justify-content: space-around;
-        padding: 60px 10%;
-        background: #fff;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-    .feature-item { text-align: center; max-width: 250px; }
-    .feature-item i { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 15px; }
-    .feature-item h3 { margin-bottom: 10px; font-size: 1.2rem; }
-    .feature-item p { font-size: 0.9rem; color: #777; }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(to right, var(--accent-color), var(--primary-color));
+            -webkit-background-clip: text;
+            color: transparent;
+        }
 
-    /* === 商品展示 === */
-    .section-title { text-align: center; margin: 60px 0 40px; font-size: 2rem; }
-    .section-title span { color: var(--accent-color); }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 20px;
+            transition: color 0.3s;
+        }
 
-    .products {
-        max-width: 1200px;
-        margin: 0 auto 80px;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 30px;
-        padding: 0 20px;
-    }
-    .card {
-        background: #fff;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: var(--card-shadow);
-        transition: 0.3s;
-        border: 1px solid #eee;
-        position: relative;
-    }
-    .card:hover { transform: translateY(-10px); }
-    
-    .card-img-wrapper { position: relative; height: 200px; overflow: hidden; }
-    .card img { width: 100%; height: 100%; object-fit: cover; }
-    
-    .badge {
-        position: absolute; top: 10px; left: 10px;
-        background: var(--primary-color); padding: 4px 10px;
-        border-radius: 4px; font-size: 0.8rem; font-weight: bold; color: #333;
-    }
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
 
-    .card-info { padding: 20px; }
-    .card-info h3 { font-size: 1.2rem; margin-bottom: 5px; }
-    .card-info .desc { font-size: 0.9rem; color: #888; margin-bottom: 15px; }
-    
-    .card-footer { display: flex; justify-content: space-between; align-items: center; }
-    .price { font-size: 1.3rem; font-weight: bold; color: var(--accent-color); }
-    .btn-buy {
-        padding: 8px 15px;
-        border: 2px solid var(--secondary-color);
-        color: var(--secondary-color);
-        border-radius: 20px;
-        font-weight: 600;
-        transition: 0.3s;
-    }
-    .btn-buy:hover { background: var(--secondary-color); color: #fff; }
+        /* 主体区域 */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 20px;
+            text-align: center;
+        }
 
-    /* === 订阅区域 === */
-    .newsletter {
-        background: var(--text-color);
-        color: #fff;
-        text-align: center;
-        padding: 60px 20px;
-    }
-    .newsletter h2 { margin-bottom: 15px; }
-    .input-group {
-        margin-top: 20px;
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-    }
-    .input-group input {
-        padding: 12px;
-        border-radius: 5px;
-        border: none;
-        width: 300px;
-        max-width: 100%;
-    }
-    .input-group button {
-        padding: 12px 25px;
-        background: var(--primary-color);
-        border: none;
-        border-radius: 5px;
-        font-weight: bold;
-        cursor: pointer;
-    }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
 
-    /* === Footer === */
-    footer { text-align: center; padding: 20px; background: #052b36; color: #aaa; font-size: 0.9rem; }
+        p.subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
 
-    /* === 移动端适配 === */
-    @media (max-width: 768px) {
-        .hero h1 { font-size: 2.2rem; }
-        .nav-links { display: none; } /* 简单隐藏，实际项目可用JS做汉堡菜单 */
-        .features { flex-direction: column; align-items: center; }
-        .input-group { flex-direction: column; align-items: center; }
-    }
-</style>
+        /* 输入与生成区域 */
+        .generator-section {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            max-width: 800px;
+            margin: 0 auto 4rem auto;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        textarea {
+            flex: 1;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: none;
+            height: 60px;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: var(--primary-color);
+        }
+
+        button.generate-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            padding: 0 2rem;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            min-height: 60px;
+        }
+
+        button.generate-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* 生成结果展示 */
+        .result-container {
+            margin-top: 2rem;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed rgba(255,255,255,0.1);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-image {
+            max-width: 100%;
+            border-radius: 8px;
+            display: none; /* 默认隐藏 */
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(255,255,255,0.1);
+            border-left-color: var(--accent-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            display: none; /* 默认隐藏 */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 画廊区域 */
+        .gallery-section h2 {
+            margin-bottom: 2rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .input-group { flex-direction: column; }
+            button.generate-btn { width: 100%; }
+        }
+    </style>
 </head>
 <body>
 
-<nav>
-    <div class="logo"><i class="fa-solid fa-shapes"></i> 玩具王国</div>
-    <div class="nav-links">
-        <a href="#">首页</a>
-        <a href="#products">热销商品</a>
-        <a href="#about">关于我们</a>
-    </div>
-    <a href="#" class="btn-nav">登录 / 注册</a>
-</nav>
+    <header>
+        <div class="logo">✨ DreamCanvas AI</div>
+        <nav class="nav-links">
+            <a href="#">首页</a>
+            <a href="#">画廊</a>
+            <a href="#">价格</a>
+            <a href="#">登录</a>
+        </nav>
+    </header>
 
-<section class="hero">
-    <div class="hero-content">
-        <h1>点亮孩子的<br>奇思妙想</h1>
-        <p>精选全球益智玩具，寓教于乐，陪伴成长。</p>
-        <a href="#products" class="btn-lg">立即开始探索 <i class="fa-solid fa-rocket"></i></a>
-    </div>
-</section>
+    <main>
+        <section class="hero">
+            <h1>将文字转化为<span style="color: var(--accent-color)">艺术</span></h1>
+            <p class="subtitle">输入您的创意描述，让 AI 为您绘制独一无二的图像。</p>
+        </section>
 
-<section class="features">
-    <div class="feature-item">
-        <i class="fa-solid fa-shield-halved"></i>
-        <h3>安全材质</h3>
-        <p>100% 环保无毒材料，呵护宝宝健康。</p>
-    </div>
-    <div class="feature-item">
-        <i class="fa-solid fa-truck-fast"></i>
-        <h3>极速发货</h3>
-        <p>24小时内极速发货，快乐不用等。</p>
-    </div>
-    <div class="feature-item">
-        <i class="fa-solid fa-gift"></i>
-        <h3>精美礼盒</h3>
-        <p>提供高端礼品包装，送礼更有面子。</p>
-    </div>
-</section>
-
-<h2 class="section-title">本周 <span>热门推荐</span></h2>
-<section id="products" class="products">
-    
-    <div class="card">
-        <div class="card-img-wrapper">
-            <span class="badge">销量 TOP1</span>
-            <img src="https://placehold.co/400x300?text=AI编程机器人" alt="机器人">
-        </div>
-        <div class="card-info">
-            <h3>AI 智能编程机器人</h3>
-            <p class="desc">适合 6-12 岁，学习图形化编程基础。</p>
-            <div class="card-footer">
-                <span class="price">¥299</span>
-                <a href="#" class="btn-buy">加入购物车</a>
+        <section class="generator-section">
+            <div class="input-group">
+                <textarea id="promptInput" placeholder="例如：一只戴着宇航员头盔的猫，赛博朋克风格，霓虹灯光..."></textarea>
+                <button id="generateBtn" class="generate-btn">开始生成</button>
             </div>
-        </div>
-    </div>
 
-    <div class="card">
-        <div class="card-img-wrapper">
-            <img src="https://placehold.co/400x300?text=森林积木城" alt="积木">
-        </div>
-        <div class="card-info">
-            <h3>森林动物积木城</h3>
-            <p class="desc">500+ 颗粒，培养空间想象力。</p>
-            <div class="card-footer">
-                <span class="price">¥158</span>
-                <a href="#" class="btn-buy">加入购物车</a>
+            <div class="result-container" id="resultContainer">
+                <div class="loading-spinner" id="spinner"></div>
+                <p id="placeholderText" style="color: var(--text-secondary)">图像将在这里显示...</p>
+                <img id="generatedImage" class="result-image" src="" alt="AI Generated Art">
             </div>
-        </div>
-    </div>
+        </section>
 
-    <div class="card">
-        <div class="card-img-wrapper">
-            <span class="badge">新品</span>
-            <img src="https://placehold.co/400x300?text=星空投影仪" alt="投影仪">
-        </div>
-        <div class="card-info">
-            <h3>梦幻星空投影仪</h3>
-            <p class="desc">助眠神器，给孩子一片璀璨星空。</p>
-            <div class="card-footer">
-                <span class="price">¥89</span>
-                <a href="#" class="btn-buy">加入购物车</a>
+        <section class="gallery-section">
+            <h2>灵感画廊</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=500&auto=format&fit=crop&q=60" alt="Space Art">
+                    <div class="gallery-overlay">
+                        <span>星际穿越</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1635322966219-b75ed372eb01?w=500&auto=format&fit=crop&q=60" alt="Cyberpunk City">
+                    <div class="gallery-overlay">
+                        <span>未来都市</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&auto=format&fit=crop&q=60" alt="Abstract Oil">
+                    <div class="gallery-overlay">
+                        <span>抽象油画</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=500&auto=format&fit=crop&q=60" alt="Neon Portrait">
+                    <div class="gallery-overlay">
+                        <span>霓虹肖像</span>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
-    <div class="card">
-        <div class="card-img-wrapper">
-            <img src="https://placehold.co/400x300?text=儿童滑板车" alt="滑板车">
-        </div>
-        <div class="card-info">
-            <h3>炫光儿童滑板车</h3>
-            <p class="desc">重力转向，闪光轮毂，户外运动首选。</p>
-            <div class="card-footer">
-                <span class="price">¥199</span>
-                <a href="#" class="btn-buy">加入购物车</a>
-            </div>
-        </div>
-    </div>
+    <script>
+        // --- JavaScript 交互逻辑 ---
 
-</section>
+        const generateBtn = document.getElementById('generateBtn');
+        const promptInput = document.getElementById('promptInput');
+        const spinner = document.getElementById('spinner');
+        const generatedImage = document.getElementById('generatedImage');
+        const placeholderText = document.getElementById('placeholderText');
+        const resultContainer = document.getElementById('resultContainer');
 
-<section class="newsletter">
-    <h2>订阅我们的最新资讯</h2>
-    <p>获取独家优惠券和新品发布通知！</p>
-    <div class="input-group">
-        <input type="email" placeholder="输入您的电子邮箱...">
-        <button>立即订阅</button>
-    </div>
-</section>
+        generateBtn.addEventListener('click', () => {
+            const prompt = promptInput.value.trim();
 
-<footer>
-    <p>&copy; 2026 玩具王国 Toy Kingdom. All Rights Reserved. | <a href="#">隐私政策</a></p>
-</footer>
-
-</body>
-</html>
+            if (!prompt) {
+                alert('请输入描述词！
